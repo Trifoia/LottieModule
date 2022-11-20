@@ -3,25 +3,85 @@
 @inject ISettingService SettingService
 
 <div class="container">
+    Same Settings as the<a href="https://lottiefiles.com/web-player">Lottie Web Player</a>
     <div class="row mb-1 align-items-center">
-        <Label Class="col-sm-3" For="value" HelpText="Enter a value" >Name: </Label>
+        <Label Class="col-sm-3" For="value" HelpText="URL " >Lottie URL: </Label>
             <div class="col-sm-9">
-                <input id="value" type="text" class="form-control" @bind="@_value" />
+            <input id="value" type="text" class="form-control" @bind="@_src" />
             </div>
     </div>
+    <div class="row mb-1 align-items-center">
+        <Label Class="col-sm-3" For="value" HelpText="Transparent or HEX">Background: </Label>
+        <div class="col-sm-9">
+            <input id="value" type="text" class="form-control" @bind="@_background" />
+        </div>
+    </div>
+    <div class="row mb-1 align-items-center">
+        <Label Class="col-sm-3" For="value" HelpText="CSS Style">Style: </Label>
+        <div class="col-sm-9">
+            <input id="value" type="text" class="form-control" @bind="@_style" />
+        </div>
+    </div>
+    <div class="row mb-1 align-items-center">
+        <Label Class="col-sm-3" For="value" HelpText="True or False">Autoplay: </Label>
+        <div class="col-sm-9">
+            <input id="value" type="text" class="form-control" @bind="@_autoplay" />
+        </div>
+    </div>
+    <div class="row mb-1 align-items-center">
+        <Label Class="col-sm-3" For="value" HelpText="True or False">Loop: </Label>
+        <div class="col-sm-9">
+            <input id="value" type="text" class="form-control" @bind="@_loop" />
+        </div>
+    </div>
+      <div class="row mb-1 align-items-center">
+        <Label Class="col-sm-3" For="value" HelpText="True or False">Controls: </Label>
+        <div class="col-sm-9">
+            <input id="value" type="text" class="form-control" @bind="@_controls" />
+        </div>
+    </div>
+    <div class="row mb-1 align-items-center">
+        <Label Class="col-sm-3" For="value" HelpText="True or False">Hover: </Label>
+        <div class="col-sm-9">
+            <input id="value" type="text" class="form-control" @bind="@_hover" />
+        </div>
+    </div>
+
 </div>
 
 @code {
     public override string Title => "Lottie Settings";
 
-    string _value;
+
+    private string _src, _background, _speed, _style, _autoplay, _loop,_controls,_hover;
+
+    public class Defaults
+    {
+        public const string Src = "https://assets9.lottiefiles.com/datafiles/MUp3wlMDGtoK5FK/data.json";
+        public const string Background = "transparent";
+        public const string Speed = ".5";
+        public const string Style = "width: 300px; height: 300px;";
+        public const string Autoplay = "true";
+        public const string Loop = "true";
+        public const string Controls = "false";
+        public const string Hover = "false";
+    }
+
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             Dictionary<string, string> settings = await SettingService.GetModuleSettingsAsync(ModuleState.ModuleId);
-            _value = SettingService.GetSetting(settings, "SettingName", "");
+            _src = SettingService.GetSetting(settings, "src", Defaults.Src);
+            _background = SettingService.GetSetting(settings, "background", Defaults.Background);
+            _speed = SettingService.GetSetting(settings, "speed", Defaults.Speed);
+            _style = SettingService.GetSetting(settings, "style", Defaults.Style);
+            _autoplay = SettingService.GetSetting(settings, "autoplay", Defaults.Autoplay);
+            _loop = SettingService.GetSetting(settings, "loop", Defaults.Loop);
+            _controls = SettingService.GetSetting(settings, "controls", Defaults.Controls);
+            _hover = SettingService.GetSetting(settings, "hover", Defaults.Hover);
+
         }
         catch (Exception ex)
         {
@@ -34,7 +94,14 @@
         try
         {
             Dictionary<string, string> settings = await SettingService.GetModuleSettingsAsync(ModuleState.ModuleId);
-            SettingService.SetSetting(settings, "SettingName", _value);
+            SettingService.SetSetting(settings, "src", _src);
+            SettingService.SetSetting(settings, "background", _background);
+            SettingService.SetSetting(settings, "speed", _speed);
+            SettingService.SetSetting(settings, "style", _style);
+            SettingService.SetSetting(settings, "autoplay", _autoplay);
+            SettingService.SetSetting(settings, "loop", _loop);
+            SettingService.SetSetting(settings, "controls", _controls);
+            SettingService.SetSetting(settings, "hover", _hover);
             await SettingService.UpdateModuleSettingsAsync(settings, ModuleState.ModuleId);
         }
         catch (Exception ex)

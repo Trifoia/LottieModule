@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Trifoia.Lottie.Client.csproj" />
-    <ProjectReference Include="..\Server\Trifoia.Lottie.Server.csproj" />
-    <ProjectReference Include="..\Shared\Trifoia.Lottie.Shared.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

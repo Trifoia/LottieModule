@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Trifoia.Lottie.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Oqtane.Client" Version="3.2.1" />
     <PackageReference Include="Oqtane.Shared" Version="3.2.1" />
   </ItemGroup>

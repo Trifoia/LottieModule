@@ -1,14 +1,16 @@
-
 @namespace Trifoia.Lottie
 @inherits ModuleBase
 @inject NavigationManager NavigationManager
+@inject ISettingService SettingService
 
 <lottie-player src="@_src"
                background="@_background"
                speed="@_speed"  
                style="@_style"  
                loop="@_loop"
-               autoplay="@_autoplay" ></lottie-player>
+               autoplay="@_autoplay"
+               controls="@_controls"
+               hover="@_hover" />
 
 @code {
     public override List<Resource> Resources => new List<Resource>()
@@ -16,16 +18,18 @@
         new Resource { ResourceType = ResourceType.Script, Url = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" }
     };
 
-    private string _src = "https://assets9.lottiefiles.com/datafiles/MUp3wlMDGtoK5FK/data.json";
-    private string _background = "transparent";
-    private string _speed = ".5";
-    private string _style = "width: 300px; height: 300px;";
-    private string _autoplay = "true";
-    private string _loop = "true";
-
+    private string _src, _background, _speed, _style, _autoplay, _loop, _controls, _hover;
+   
     protected override async Task OnInitializedAsync()
     {
-        
+        Dictionary<string, string> settings = await SettingService.GetModuleSettingsAsync(ModuleState.ModuleId);
+        _src = SettingService.GetSetting(settings, "src", Settings.Defaults.Src);
+        _background = SettingService.GetSetting(settings, "background", Settings.Defaults.Background);
+        _speed = SettingService.GetSetting(settings, "speed", Settings.Defaults.Speed);
+        _style = SettingService.GetSetting(settings, "style", Settings.Defaults.Style);
+        _autoplay = SettingService.GetSetting(settings, "autoplay", Settings.Defaults.Autoplay);
+        _loop = SettingService.GetSetting(settings, "loop", Settings.Defaults.Loop);
+        _controls = SettingService.GetSetting(settings, "controls", Settings.Defaults.Controls);
+        _hover = SettingService.GetSetting(settings, "hover", Settings.Defaults.Hover);
     }
-
 }

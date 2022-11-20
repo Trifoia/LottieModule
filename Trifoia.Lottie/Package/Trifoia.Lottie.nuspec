@@ -22,11 +22,6 @@
   <files>
     <file src="..\Client\bin\Release\net6.0\Trifoia.Lottie.Client.Oqtane.dll" target="lib\net6.0" /> 
     <file src="..\Client\bin\Release\net6.0\Trifoia.Lottie.Client.Oqtane.pdb" target="lib\net6.0" /> 
-    <file src="..\Server\bin\Release\net6.0\Trifoia.Lottie.Server.Oqtane.dll" target="lib\net6.0" /> 
-    <file src="..\Server\bin\Release\net6.0\Trifoia.Lottie.Server.Oqtane.pdb" target="lib\net6.0" /> 
-    <file src="..\Shared\bin\Release\net6.0\Trifoia.Lottie.Shared.Oqtane.dll" target="lib\net6.0" /> 
-    <file src="..\Shared\bin\Release\net6.0\Trifoia.Lottie.Shared.Oqtane.pdb" target="lib\net6.0" /> 
-    <file src="..\Server\wwwroot\**\*.*" target="wwwroot" /> 
     <file src="icon.png" target="" />
   </files>
 </package>
