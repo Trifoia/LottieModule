@@ -1,77 +1,31 @@
-@using Trifoia.Lottie.Services
-@using Trifoia.Lottie.Models
 
 @namespace Trifoia.Lottie
 @inherits ModuleBase
-@inject ILottieService LottieService
 @inject NavigationManager NavigationManager
-@inject IStringLocalizer<Index> Localizer
 
-@if (_Lotties == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <ActionLink Action="Add" Security="SecurityAccessLevel.Edit" Text="Add Lottie" ResourceKey="Add" />
-    <br />
-    <br />
-    @if (@_Lotties.Count != 0)
-    {
-        <Pager Items="@_Lotties">
-            <Header>
-                <th style="width: 1px;">&nbsp;</th>
-                <th style="width: 1px;">&nbsp;</th>
-                <th>@Localizer["Name"]</th>
-            </Header>
-            <Row>
-                <td><ActionLink Action="Edit" Parameters="@($"id=" + context.LottieId.ToString())" ResourceKey="Edit"  /></td>
-                <td><ActionDialog Header="Delete Lottie" Message="Are You Sure You Wish To Delete This Lottie?" Action="Delete" Security="SecurityAccessLevel.Edit" Class="btn btn-danger" OnClick="@(async () => await Delete(context))" ResourceKey="Delete"  /></td>
-                <td>@context.Name</td>
-            </Row>
-        </Pager>
-    }
-    else
-    {
-        <p>@Localizer["Message.DisplayNone"]</p>
-    }
-}
+<lottie-player src="@_src"
+               background="@_background"
+               speed="@_speed"  
+               style="@_style"  
+               loop="@_loop"
+               autoplay="@_autoplay" ></lottie-player>
 
 @code {
     public override List<Resource> Resources => new List<Resource>()
     {
-        new Resource { ResourceType = ResourceType.Stylesheet, Url = ModulePath() + "Module.css" },
-        new Resource { ResourceType = ResourceType.Script, Url = ModulePath() + "Module.js" }
+        new Resource { ResourceType = ResourceType.Script, Url = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" }
     };
 
-    List<Lottie> _Lotties;
+    private string _src = "https://assets9.lottiefiles.com/datafiles/MUp3wlMDGtoK5FK/data.json";
+    private string _background = "transparent";
+    private string _speed = ".5";
+    private string _style = "width: 300px; height: 300px;";
+    private string _autoplay = "true";
+    private string _loop = "true";
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            _Lotties = await LottieService.GetLottiesAsync(ModuleState.ModuleId);
-        }
-        catch (Exception ex)
-        {
-            await logger.LogError(ex, "Error Loading Lottie {Error}", ex.Message);
-            AddModuleMessage(Localizer["Message.LoadError"], MessageType.Error);
-        }
+        
     }
 
-    private async Task Delete(Lottie Lottie)
-    {
-        try
-        {
-            await LottieService.DeleteLottieAsync(Lottie.LottieId, ModuleState.ModuleId);
-            await logger.LogInformation("Lottie Deleted {Lottie}", Lottie);
-            _Lotties = await LottieService.GetLottiesAsync(ModuleState.ModuleId);
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            await logger.LogError(ex, "Error Deleting Lottie {Lottie} {Error}", Lottie, ex.Message);
-            AddModuleMessage(Localizer["Message.DeleteError"], MessageType.Error);
-        }
-    }
 }
